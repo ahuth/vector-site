@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090c10">
+  <meta name="description" content="You're still the engineer. Vector is a desktop workspace for directing Claude and Codex, following their work, and making the decisions that matter. Try the macOS beta.">
+  <title>Vector — You're still the engineer.</title>
+  <style>
+    :root { color-scheme: dark; --bg:#090c10; --text:#eef0f3; --muted:#abb2bc; --line:#ffffff20; --accent:#c4d0df; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
+    a { color:inherit; text-decoration:none; }
+    a:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }
+    a, .button { transition:background .2s,color .2s,border-color .2s; }
+    p { line-height:1.7; }
+    .wrap { width:min(1120px,calc(100% - 64px)); margin-inline:auto; }
+    header { height:94px; display:flex; justify-content:space-between; align-items:center; position:relative; z-index:2; }
+    .brand { display:inline-flex; align-items:center; gap:11px; font-size:23px; font-weight:650; letter-spacing:-1px; }
+    .mark { width:27px; height:29px; }
+    nav { display:flex; align-items:center; gap:32px; font-size:15px; color:#b6bbc2; }
+    nav a:hover, footer a:hover { color:white; }
+    .nav-cta { padding:10px 15px; border:1px solid #ffffff29; border-radius:6px; color:var(--text); }
+    .nav-cta:hover { background:#ffffff0c; }
+    .hero { position:relative; overflow:hidden; text-align:center; padding:74px 0 0; }
+    .hero-copy { position:relative; z-index:1; }
+    .eyebrow { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; text-transform:uppercase; font-size:12px; line-height:1.7; letter-spacing:2px; color:var(--accent); }
+    .eyebrow .dot { display:inline-block; width:6px; height:6px; background:var(--accent); border-radius:50%; margin:0 9px 2px 0; box-shadow:0 0 12px #c4d0df70; }
+    .beta-badge { display:inline-block; padding:8px 15px; border:1px solid #c4d0df35; border-radius:30px; background:#151b23; }
+    h1 { font-size:clamp(48px,6.4vw,82px); line-height:1.06; font-weight:500; letter-spacing:-4.5px; margin:30px 0 25px; }
+    h1 span { color:var(--accent); }
+    .intro { max-width:670px; margin:0 auto; color:var(--muted); font-size:19px; line-height:1.75; }
+    .intro strong { color:#dddeda; font-weight:400; }
+    .actions { display:flex; justify-content:center; align-items:center; gap:25px; margin:29px 0 13px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:15px 22px; background:#d6dee8; color:#141a22; font-size:15px; font-weight:650; border:1px solid #edf1f7; border-radius:6px; }
+    .button:hover { background:#f0f4fa; }
+    .text-link { font-size:15px; color:#c1c5ca; }
+    .text-link:hover { color:white; }
+    .text-link span { margin-left:8px; }
+    .requirements { font-size:14px; color:#a8b0bb; }
+    .space { position:absolute; inset:220px 0 0; pointer-events:none; overflow:hidden; }
+    .stars { position:absolute; inset:0; opacity:.7; background-image:radial-gradient(circle at 9% 39%,#d5dfef 0 1px,transparent 1.8px),radial-gradient(circle at 87% 18%,#bbc9de 0 1px,transparent 1.8px),radial-gradient(circle at 18% 68%,#bbc9de 0 1px,transparent 1.8px),radial-gradient(circle at 78% 58%,#bbc9de 0 1px,transparent 1.8px),radial-gradient(circle at 95% 49%,#bbc9de 0 1px,transparent 1.8px),radial-gradient(circle at 30% 32%,#bbc9de 0 .7px,transparent 1px); }
+    .stars::before { content:""; position:absolute; inset:0; background-image:radial-gradient(circle,#c0ccdc 0 .6px,transparent 1px),radial-gradient(circle,#b5c0d0 0 .5px,transparent 1px); background-size:137px 163px,211px 127px; background-position:19px 37px,71px 13px; opacity:.45; mask-image:linear-gradient(transparent,#000 22%,#000 65%,transparent); }
+    .stars::after { content:""; position:absolute; width:7px; height:7px; top:24%; right:16%; border-radius:50%; background:#e9f2ff; box-shadow:0 0 8px 2px #b3c8e777,0 0 26px 5px #a5bbdf22; }
+    .sunrise { position:absolute; width:1150px; height:560px; top:115px; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse at 50% 50%,#e7efff88 0%,#b7cae33d 12%,#7388a31a 32%,transparent 65%); }
+    .sunrise::before { content:""; position:absolute; inset:-100px 0; background:repeating-conic-gradient(from 244deg at 50% 50%,transparent 0deg 9deg,#dceaff0c 10deg,#dceaff24 11deg,transparent 13deg 22deg); mask-image:radial-gradient(ellipse,#000 4%,#0009 24%,transparent 62%); }
+    .sunrise::after { content:""; position:absolute; width:330px; height:4px; left:50%; top:50%; transform:translate(-50%,-50%); background:#f4f8ff; border-radius:50%; box-shadow:0 0 15px 5px #dceaff88,0 0 45px 13px #c6dbff44; }
+    .planet { position:absolute; top:395px; left:50%; transform:translateX(-50%); width:max(130%,1200px); height:650px; overflow:hidden; border-radius:50%; border-top:2px solid #dce8f9b0; background:radial-gradient(ellipse at 50% -15%,#67788c55,transparent 50%),linear-gradient(#242d39,#11171f 22%,#090c10 56%); box-shadow:0 -7px 28px #a9c8f333,0 -1px 4px #edf5ffbb,inset 0 8px 25px #acc6e21a; }
+    .terrain { width:100%; height:100%; opacity:.24; mix-blend-mode:screen; mask-image:linear-gradient(#000,transparent 65%); }
+    .preview { position:relative; z-index:1; margin:180px auto 0; max-width:920px; text-align:left; }
+    .app { border:1px solid #ffffff24; border-radius:10px; background:#111419; box-shadow:0 20px 80px #0008; overflow:hidden; }
+    .app-top { height:42px; display:flex; align-items:center; padding:0 15px; border-bottom:1px solid var(--line); background:#171a1e; gap:6px; }
+    .traffic { width:8px; height:8px; border-radius:50%; background:#78605d; }
+    .traffic:nth-child(2) { background:#857753; } .traffic:nth-child(3) { background:#54745c; }
+    .app-title { margin:auto; padding-right:36px; color:#8b929b; font-size:10px; }
+    .app-body { display:grid; grid-template-columns:180px 1fr; min-height:335px; }
+    .sidebar { background:#101317; border-right:1px solid var(--line); padding:25px 12px; font-size:11px; }
+    .sidebar-heading { color:#838b96; padding:0 10px 14px; font-size:9px; letter-spacing:1.1px; text-transform:uppercase; }
+    .workspace { padding:10px; color:#a3aab3; margin-bottom:4px; border-radius:4px; }
+    .workspace.selected { background:#ffffff09; color:#e7e6e1; }
+    .workspace b { color:#9dc5b0; margin-right:8px; font-weight:400; }
+    .sidebar-heading.later { margin-top:28px; }
+    .conversation { padding:24px 32px; }
+    .conversation-head { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding-bottom:17px; font-size:12px; }
+    .provider { font:9px ui-monospace,SFMono-Regular,monospace; color:#a8b0bb; }
+    .message { margin-top:22px; display:grid; grid-template-columns:25px 1fr; gap:10px; font-size:12px; }
+    .avatar { width:23px; height:23px; display:grid; place-items:center; border-radius:5px; background:#2b3441; color:#d0dded; font-size:12px; }
+    .avatar.agent { background:#232c2b; color:#a6c6b7; }
+    .message strong { font-size:10px; font-weight:550; color:#c9cdd2; }
+    .message p { color:#b0b6bf; margin:7px 0 0; line-height:1.7; }
+    .activity { margin:16px 0 0 35px; padding:12px; border:1px solid var(--line); border-radius:5px; display:flex; justify-content:space-between; font-size:10px; color:#b0b6bf; }
+    .activity span:last-child { color:#a5c7b5; }
+    .composer { margin-top:23px; padding:12px; border:1px solid #ffffff22; border-radius:5px; font-size:10px; color:#7f8792; display:flex; justify-content:space-between; }
+    figcaption { text-align:center; color:#7e8791; font-size:10px; letter-spacing:.2px; padding:17px 0; }
+    .manifesto { padding:105px 0 82px; display:grid; grid-template-columns:1fr 1.1fr; gap:100px; border-bottom:1px solid var(--line); }
+    h2 { font-weight:450; font-size:clamp(32px,3.6vw,43px); line-height:1.15; letter-spacing:-1.6px; margin:20px 0 0; }
+    .manifesto p { font-size:18px; color:var(--muted); margin:0 0 19px; }
+    .manifesto p:last-child { color:#dddeda; margin-bottom:0; }
+    .workflow { padding:74px 0 83px; }
+    .section-top { display:flex; align-items:baseline; justify-content:space-between; gap:24px; }
+    .section-top h2 { font-size:30px; margin:0; letter-spacing:-1px; }
+    .section-top p { font-size:15px; color:var(--muted); }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:45px; margin-top:43px; }
+    .number { color:var(--accent); font:11px ui-monospace,SFMono-Regular,monospace; padding-bottom:17px; border-bottom:1px solid var(--line); }
+    h3 { font-size:17px; font-weight:500; margin:22px 0 10px; letter-spacing:-.3px; }
+    .steps p { color:var(--muted); font-size:16px; margin:0; }
+    .beta { position:relative; border:1px solid #c4d0df40; background:radial-gradient(ellipse at 100% 100%,#9db5d51a,transparent 65%),#14191f; border-radius:8px; padding:47px 50px; display:flex; justify-content:space-between; align-items:center; gap:45px; margin-bottom:72px; }
+    .beta h2 { margin:14px 0; font-size:35px; }
+    .beta p { color:var(--muted); font-size:16px; max-width:540px; margin:0; }
+    .beta .beta-perk { margin-top:22px; padding-top:20px; border-top:1px solid var(--line); color:#d8e1ed; }
+    .beta-actions { flex-shrink:0; text-align:center; }
+    .beta-actions .text-link { display:block; margin-top:18px; font-size:14px; }
+    footer { border-top:1px solid var(--line); padding:28px 0 35px; display:flex; align-items:center; justify-content:space-between; gap:25px; color:#a5aeba; font-size:14px; }
+    footer .brand { font-size:16px; color:#d1d4d7; letter-spacing:-.5px; gap:8px; }
+    footer .mark { width:19px; height:20px; }
+    footer .footer-note { margin-right:auto; }
+    footer .links { display:flex; gap:23px; }
+    .app-title, .sidebar-heading, .provider, .message strong, .composer { font-size:12px; }
+    .sidebar, .conversation-head, .message { font-size:14px; }
+    .conversation-head, .activity { gap:12px; }
+    .activity { font-size:13px; flex-wrap:wrap; }
+    figcaption { font-size:13px; color:#a2acb9; }
+    .number { font-size:13px; }
+    h3 { font-size:20px; }
+    @media(min-width:1500px) { .hero { padding-top:100px; } }
+    @media(max-width:760px) {
+      .wrap { width:calc(100% - 40px); } header { height:78px; } nav { gap:18px; } nav .about-link { display:none; }
+      .hero { padding-top:50px; } h1 { letter-spacing:-2.7px; } .intro { font-size:17px; max-width:540px; }
+      .preview { margin-top:165px; } .app-body { grid-template-columns:155px 1fr; } .conversation { padding:22px 20px; }
+      .manifesto { padding:65px 0; grid-template-columns:1fr; gap:28px; } .manifesto h2 { max-width:400px; }
+      .section-top { display:block; } .steps { gap:25px; } .beta { padding:32px; gap:30px; flex-direction:column; align-items:flex-start; }
+      .beta-actions { text-align:left; } footer { flex-wrap:wrap; } footer .footer-note { display:none; }
+    }
+    @media(max-width:480px) {
+      .wrap { width:calc(100% - 32px); } nav { gap:12px; font-size:13px; } .nav-cta { padding:9px 11px; }
+      h1 { font-size:46px; letter-spacing:-2.5px; } .eyebrow { font-size:11px; letter-spacing:1.3px; }
+      .intro br { display:none; }
+      .actions { gap:18px; flex-wrap:wrap; } .button { padding:14px 17px; font-size:15px; } .text-link { font-size:14px; }
+      .sidebar { display:none; } .app-body { grid-template-columns:1fr; } .conversation { padding:20px; }
+      .preview { margin-top:150px; } .space { top:310px; } .steps { grid-template-columns:1fr; gap:32px; }
+      .workflow { padding:55px 0; } .steps { margin-top:30px; } h3 { margin-top:16px; } .beta { padding:29px 25px; margin-bottom:45px; }
+      .beta h2 { font-size:30px; } footer .links { gap:16px; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } a { transition:none; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="#" aria-label="Vector home"><svg class="mark" viewBox="0 0 30 32" fill="none" aria-hidden="true"><path d="M3 5 13 27 27 3M13 27 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Vector</a>
+    <nav aria-label="Main navigation"><a class="about-link" href="#approach">The idea</a><a href="https://github.com/ahuth/vector-issues/issues">Feedback ↗</a><a class="nav-cta" href="#download">Get the beta <span aria-hidden="true">↓</span></a></nav>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="space" aria-hidden="true"><div class="stars"></div><div class="sunrise"></div><div class="planet"><svg class="terrain" viewBox="0 0 1400 650" preserveAspectRatio="none"><defs><filter id="terrain-texture" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".012 .045" numOctaves="4" seed="24"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="1" exponent="2" offset="0"/><feFuncG type="gamma" amplitude="1" exponent="2" offset="0"/><feFuncB type="gamma" amplitude="1" exponent="2" offset="0"/></feComponentTransfer></filter></defs><rect width="1400" height="650" filter="url(#terrain-texture)"/></svg></div></div>
+      <div class="hero-copy wrap">
+        <a class="eyebrow beta-badge" href="#download"><span class="dot"></span>Vector is in beta · Help shape it <span aria-hidden="true">↗</span></a>
+        <h1 id="hero-title">Your judgment matters<br><span>more than ever.</span></h1>
+        <p class="intro">AI can write the code. You decide what’s worth building.<br>Vector brings you and your coding agents into one workspace.<br><strong>You set the direction. You’re still the engineer.</strong></p>
+        <div class="actions"><a class="button" href="https://github.com/ahuth/vector-issues/releases/latest"><svg width="15" height="17" viewBox="0 0 18 20" fill="none" aria-hidden="true"><path d="M9 1v12m-5-5 5 5 5-5M2 14v4h14v-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download the beta</a><a class="text-link" href="#approach">Meet Vector <span aria-hidden="true">↓</span></a></div>
+        <p class="requirements">For macOS 13+ · Apple silicon · Claude &amp; Codex</p>
+      </div>
+      <figure class="preview wrap">
+        <div class="app" role="img" aria-label="Illustrative Vector workspace: a human directs a Claude agent to design a permissions system, with delegated review activity visible alongside the conversation.">
+          <div class="app-top" aria-hidden="true"><i class="traffic"></i><i class="traffic"></i><i class="traffic"></i><span class="app-title">Vector</span></div>
+          <div class="app-body" aria-hidden="true">
+            <aside class="sidebar"><div class="sidebar-heading">Workspaces</div><div class="workspace selected"><b>◈</b> Permissions</div><div class="workspace">◈ &nbsp; Onboarding</div><div class="workspace">◈ &nbsp; API cleanup</div><div class="sidebar-heading later">Todo</div><div class="workspace">◈ &nbsp; Usage dashboard</div></aside>
+            <div class="conversation"><div class="conversation-head"><span>Design the permissions model</span><span class="provider">Claude</span></div>
+              <div class="message"><span class="avatar">Y</span><div><strong>You</strong><p>Let’s keep permissions at the workspace level for now. Explore the tradeoffs before we commit to an implementation.</p></div></div>
+              <div class="message"><span class="avatar agent">✳</span><div><strong>Claude</strong><p>I’ll map out the options and have a second agent review the edge cases. Here’s where the architecture needs your input.</p></div></div>
+              <div class="activity"><span>↳ &nbsp; Review permission boundaries</span><span>Working</span></div>
+              <div class="composer"><span>Give direction, ask a question, think it through…</span><span>↑</span></div>
+            </div>
+          </div>
+        </div>
+        <figcaption>An illustrative workspace. Your direction, your agents, one place.</figcaption>
+      </figure>
+    </section>
+    <section class="manifesto wrap" id="approach" aria-labelledby="approach-title">
+      <div><div class="eyebrow">The work changes. The judgment stays.</div><h2 id="approach-title">Writing code was never<br>the whole job.</h2></div>
+      <div><p>What should we build? Where should the boundaries be? Which tradeoffs can we live with? That’s engineering. And when AI makes implementation faster, engineering and architectural judgment become more valuable, not less.</p><p>Vector is a desktop workspace for that way of working. Direct Claude and Codex, follow their progress, and stay close to the decisions that shape your software.</p><p>Less time at the keyboard doesn’t mean less engineering.</p></div>
+    </section>
+    <section class="workflow wrap" aria-labelledby="workflow-title">
+      <div class="section-top"><h2 id="workflow-title">You bring the direction.</h2><p>Your agents help you move it forward.</p></div>
+      <div class="steps">
+        <article><div class="number">01 / DIRECT</div><h3>Start with intent.</h3><p>Give the work a home. Organize projects into workspaces and start conversations with Claude or Codex around what you want to accomplish.</p></article>
+        <article><div class="number">02 / UNDERSTAND</div><h3>Keep the work in view.</h3><p>Follow conversations and see live activity as agents delegate work. Ask questions, explore alternatives, and redirect when something needs a different approach.</p></article>
+        <article><div class="number">03 / DECIDE</div><h3>Exercise your judgment.</h3><p>Bring the context an agent doesn’t have. Set constraints, weigh the tradeoffs, and make the architectural calls. The software still needs your point of view.</p></article>
+      </div>
+    </section>
+    <section class="beta wrap" id="download" aria-labelledby="beta-title">
+      <div><div class="eyebrow"><span class="dot"></span>Join the beta</div><h2 id="beta-title">An early version.<br>A real say in what’s next.</h2><p>Vector is a beta project, and its direction is still taking shape. Try it on something you’re building. Tell us what clicks, what gets in the way, and what’s missing. Your feedback will help shape where Vector goes next.</p><p class="beta-perk">As a thank-you, beta testers will get a discount if Vector becomes a paid product.</p></div>
+      <div class="beta-actions"><a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">Download for macOS <span aria-hidden="true">↓</span></a><a class="text-link" href="https://github.com/ahuth/vector-issues/issues">Share feedback on GitHub <span aria-hidden="true">↗</span></a></div>
+    </section>
+  </main>
+  <footer class="wrap"><a class="brand" href="#" aria-label="Vector home"><svg class="mark" viewBox="0 0 30 32" fill="none" aria-hidden="true"><path d="M3 5 13 27 27 3M13 27 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Vector</a><span class="footer-note">Human judgment. Amplified.</span><div class="links"><a href="https://github.com/ahuth/vector-issues/releases">Release notes ↗</a><a href="https://github.com/ahuth/vector-issues/issues">Feedback ↗</a></div></footer>
+</body>
+</html>
