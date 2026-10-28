@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy and terms — Vector</title>
+  <meta name="theme-color" content="#0b0c0e">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #0b0c0e;
+      --border: #222428;
+      --text: #e4e4e6;
+      --muted: #8d8e93;
+      --link: #a9c3ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: dark; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20vh -10vw auto;
+      height: 70vh;
+      background: radial-gradient(50% 60% at 50% 0%, rgb(56 110 230 / 0.16), transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(1080px, 100% - 48px);
+      margin: 0 auto;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      font-size: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+    .brand img { width: 34px; height: 34px; }
+    nav .links { display: flex; gap: 28px; font-weight: 500; }
+    nav .links a:hover { color: var(--link); }
+
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 72px 0 96px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 44px);
+      line-height: 1.1;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+    }
+    .updated { margin: 12px 0 0; color: var(--muted); }
+    .summary {
+      margin: 36px 0 0;
+      padding: 20px 22px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgb(103 151 255 / 0.05);
+      color: var(--text);
+      font-size: 17px;
+    }
+    h2 {
+      margin: 56px 0 4px;
+      font-size: 24px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      margin: 28px 0 4px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    p { margin: 0; color: var(--muted); }
+    p + p { margin-top: 12px; }
+    p strong { color: var(--text); font-weight: 550; }
+    main a { color: var(--link); }
+    main a:hover { text-decoration: underline; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 22px 0 32px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    footer a:hover { color: var(--text); }
+    footer .links { display: flex; gap: 24px; }
+
+    @media (max-width: 760px) {
+      main { padding-top: 40px; }
+      nav .links a:not(:last-child) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><img src="assets/vector-icon.png" alt="">Vector</a>
+      <div class="links">
+        <a href="https://github.com/ahuth/vector-issues/issues">Feedback</a>
+        <a href="https://github.com/ahuth/vector-issues/releases/latest">Download</a>
+      </div>
+    </nav>
+
+    <main>
+      <h1>Privacy and terms</h1>
+      <p class="updated">Last updated October 28, 2026</p>
+
+      <p class="summary">Your code, prompts and conversations stay on your Mac. Vector sends anonymous usage events so we can see what's working, and you can turn that off. The beta is free and provided as is.</p>
+
+      <h2>Privacy</h2>
+
+      <h3>Your work stays on your Mac</h3>
+      <p>Workspaces, conversations and files are stored on your computer. Vector doesn't have servers that receive them.</p>
+
+      <h3>Agents connect to their providers directly</h3>
+      <p>Vector runs the Claude and Codex tools you install, signed in with your own accounts. What those agents send to Anthropic and OpenAI is covered by your agreements with them and by their privacy policies, not this one.</p>
+
+      <h3>Anonymous usage analytics in the app</h3>
+      <p>Vector sends anonymous events through <a href="https://aptabase.com">Aptabase</a>, such as the app opening or an agent starting and which provider it uses. Events include the app version, macOS version and your approximate location at the country level.</p>
+      <p><strong>Vector never sends your code, prompts, agent output, file names, paths or workspace titles.</strong> Events aren't linked to an account or to an identifier that follows you over time.</p>
+      <p>Analytics are on by default. You can turn them off at any time in Vector's settings.</p>
+
+      <h3>Update checks</h3>
+      <p>Vector checks GitHub for new versions. Like any download, that request shares your IP address with GitHub, under <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</p>
+
+      <h3>This website</h3>
+      <p>getvector.sh counts visits with <a href="https://umami.is">Umami</a>. It doesn't use cookies or track you across other sites. It records pages viewed, the referring site, browser, operating system, device type and country. The site is hosted on GitHub Pages, which keeps its own server logs.</p>
+
+      <h3>What we do with it</h3>
+      <p>We use analytics only to understand how Vector and this site are used, so we can improve them. We don't sell analytics data or share it for advertising.</p>
+
+      <h2>Terms</h2>
+
+      <h3>Free while in beta</h3>
+      <p>Vector is free during the beta. Paid plans may come later. They won't apply to you unless you choose them.</p>
+
+      <h3>Using Vector</h3>
+      <p>You may download and use Vector for your own work, personal or commercial. Please don't redistribute or resell it.</p>
+
+      <h3>You're in charge of your agents</h3>
+      <p>Agents in Vector can edit files and run commands on your computer. Review what they do, and keep your work in version control.</p>
+
+      <h3>No warranty</h3>
+      <p>Vector is beta software, provided "as is" without warranties of any kind. To the fullest extent the law allows, we aren't liable for any damages or data loss from using it.</p>
+
+      <h3>Changes</h3>
+      <p>We may update this page as Vector changes. The date at the top shows when it last changed.</p>
+
+      <h2>Contact</h2>
+      <p>Vector is made by Andrew Huth. Questions about privacy or these terms: <a href="mailto:hello@getvector.sh">hello@getvector.sh</a>.</p>
+    </main>
+
+    <footer>
+      <span>Vector Beta</span>
+      <span class="links">
+        <a href="privacy.html">Privacy and terms</a>
+        <a href="https://github.com/ahuth/vector-issues/issues">Report an issue</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
