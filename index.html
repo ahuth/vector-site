@@ -172,95 +172,34 @@
     }
 
     /* Screenshot */
+    /* The screenshot includes the macOS window shadow, so the image is
+       widened until the window itself lines up with the content edges */
     .shot {
       position: relative;
-      margin-top: 24px;
-      perspective: 2000px;
+      width: 107.5%;
+      margin: 0 0 0 -3.75%;
     }
+    .shot img { display: block; width: 100%; height: auto; }
     .shot::before {
       /* glow behind the window */
       content: "";
       position: absolute;
-      inset: 8% 10% auto;
-      height: 60%;
+      inset: 10% 14% auto;
+      height: 55%;
       background: rgb(36 108 224 / 0.25);
       filter: blur(90px);
       z-index: -1;
     }
-    /* Horizon of light the window rises from */
+    /* Horizon of light along the window's top edge */
     .shot::after {
       content: "";
       position: absolute;
-      top: -1px;
-      left: 4%;
-      right: 4%;
+      top: 3.9%;
+      left: 8%;
+      right: 8%;
       height: 1px;
       background: linear-gradient(90deg, transparent, rgb(103 151 255 / 0.9) 50%, transparent);
       box-shadow: 0 0 18px 1px rgb(103 151 255 / 0.5);
-    }
-    .window {
-      border-radius: 12px;
-      border: 1px solid transparent;
-      background:
-        linear-gradient(var(--panel), var(--panel)) padding-box,
-        linear-gradient(180deg, rgb(120 160 255 / 0.45), #2a2c31 18%, #222428) border-box;
-      overflow: hidden;
-      box-shadow:
-        inset 0 1px 0 rgb(255 255 255 / 0.05),
-        0 40px 80px -20px rgb(0 0 0 / 0.8);
-      aspect-ratio: 16 / 10;
-      mask-image: linear-gradient(180deg, #000 70%, transparent);
-    }
-    .window img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
-
-    /* Placeholder UI — replace with <img src="assets/screenshot.png"> */
-    .mock { display: grid; grid-template-columns: 22% 1fr; height: 100%; }
-    .mock .side {
-      background: #0d0e10;
-      border-right: 1px solid var(--border);
-      padding: 14px 12px;
-    }
-    .dots { display: flex; gap: 7px; margin-bottom: 24px; }
-    .dots i { width: 11px; height: 11px; border-radius: 50%; background: #2c2e33; }
-    .label { height: 6px; width: 34%; border-radius: 3px; background: #26282c; margin: 20px 0 12px; }
-    .row { display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 6px; }
-    .row.on { background: #1d2230; }
-    .row b { width: 6px; height: 6px; border-radius: 50%; background: #34363b; flex: none; }
-    .row.on b, .row.live b { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
-    .row span { height: 7px; border-radius: 4px; background: #2a2c31; }
-    .row.on span { background: #3a4560; }
-    .mock .main { display: flex; flex-direction: column; padding: 0; }
-    .mock .bar {
-      height: 46px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 10px;
-      padding: 0 20px;
-    }
-    .mock .bar span { height: 8px; border-radius: 4px; background: #2e3035; }
-    .mock .thread { flex: 1; padding: 28px 8% 0; display: flex; flex-direction: column; gap: 22px; }
-    .msg { display: flex; gap: 12px; }
-    .avatar { width: 22px; height: 22px; border-radius: 6px; flex: none; background: #2a2c31; }
-    .avatar.claude { background: #c96f4a; opacity: 0.8; }
-    .avatar.codex { background: #e8e8ea; opacity: 0.8; }
-    .lines { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
-    .lines span { height: 7px; border-radius: 4px; background: #26282c; }
-    .human .lines span { background: #34363b; }
-    .tool {
-      margin-top: 4px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #0f1012;
-      padding: 12px 14px;
-      display: flex; flex-direction: column; gap: 7px;
-    }
-    .tool span { background: #1f2a3d !important; }
-    .tool span:nth-child(2) { background: #1d3328 !important; }
-    .composer {
-      margin: 0 8% 22px;
-      height: 54px;
-      border: 1px solid #2c2e33;
-      border-radius: 10px;
-      background: var(--raised);
     }
 
     /* Features */
@@ -467,8 +406,6 @@
       .cta { flex-direction: column; gap: 12px; }
       .grid { grid-template-columns: 1fr; }
       .setup { flex-direction: column; align-items: flex-start; }
-      .mock { grid-template-columns: 1fr; }
-      .mock .side { display: none; }
       nav .links a:not(:last-child) { display: none; }
     }
   </style>
@@ -497,37 +434,14 @@
       </div>
     </header>
 
-    <section class="shot" aria-label="Screenshot of Vector">
-      <div class="window">
-        <!-- Placeholder: swap for <img src="assets/screenshot.png" alt="Vector"> -->
-        <div class="mock" aria-hidden="true">
-          <aside class="side">
-            <div class="dots"><i></i><i></i><i></i></div>
-            <div class="label"></div>
-            <div class="row on"><b></b><span style="width:70%"></span></div>
-            <div class="row live"><b></b><span style="width:55%"></span></div>
-            <div class="row"><b></b><span style="width:62%"></span></div>
-            <div class="label"></div>
-            <div class="row"><b></b><span style="width:48%"></span></div>
-            <div class="row"><b></b><span style="width:66%"></span></div>
-            <div class="row"><b></b><span style="width:40%"></span></div>
-            <div class="label"></div>
-            <div class="row"><b></b><span style="width:58%"></span></div>
-          </aside>
-          <div class="main">
-            <div class="bar"><span style="width:140px"></span><span style="width:60px;opacity:.5"></span></div>
-            <div class="thread">
-              <div class="msg human"><div class="avatar"></div><div class="lines"><span style="width:62%"></span><span style="width:38%"></span></div></div>
-              <div class="msg"><div class="avatar claude"></div><div class="lines">
-                <span style="width:88%"></span><span style="width:76%"></span><span style="width:52%"></span>
-                <div class="tool"><span style="width:40%"></span><span style="width:64%"></span><span style="width:30%"></span></div>
-              </div></div>
-              <div class="msg"><div class="avatar codex"></div><div class="lines"><span style="width:80%"></span><span style="width:44%"></span></div></div>
-            </div>
-            <div class="composer"></div>
-          </div>
-        </div>
-      </div>
+    <section class="shot">
+      <picture>
+        <source type="image/avif"
+          srcset="assets/demo-800.avif 800w, assets/demo-1200.avif 1200w, assets/demo-1600.avif 1600w, assets/demo-2400.avif 2400w"
+          sizes="(min-width: 1128px) 1161px, calc((100vw - 48px) * 1.075)">
+        <img src="assets/demo-1600.png" width="1600" height="956"
+          alt="Vector with a Claude agent delegating checkout work to Codex and another Claude, alongside Active, Todo and Archived workspaces">
+      </picture>
     </section>
 
     <section class="features">
