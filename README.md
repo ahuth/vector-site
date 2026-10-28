@@ -4,6 +4,12 @@ A static landing page for the Vector beta. Everything lives in `index.html`: mar
 
 `sketch.html` is an alternate "hand-drawn engineering diagram" direction, kept for reference. Delete it once you're settled.
 
+`directions.html` contains three simpler graphite alternatives. Use the top navigation to compare Statement (typography and a blue orbital accent), Architecture (an amber system diagram), and Workbench (a focused illustrative conversation). Each direction has a linkable URL fragment, uses 16px minimum text, and supports reduced motion. The existing landing page is unchanged.
+
+`explorations.html` adds four further concepts: Bearing (a directional instrument), Redline (an editorial correction), Field (an interactive field of arrows), and Section (an exploded architectural drawing). Both concept pages link to each other. Field’s “Set direction” button aligns the arrows; the other illustrations use restrained motion with reduced-motion support.
+
+`options/` holds four full-page alternatives that are simpler and punchier: Blueprint, Spotlight, Undercurrent, and Titanium. They share `options/shared.css`. Text is 16px or larger. A switcher at the bottom of each page moves between them, and should be removed when one is promoted to `index.html`.
+
 ## Preview
 
 Open `index.html` in a browser.
