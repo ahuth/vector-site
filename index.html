@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vector — Engineering through agents</title>
+  <meta name="description" content="Vector is a macOS app for humans doing engineering through agents. Orchestrate Claude and Codex with your own setups.">
+  <meta name="theme-color" content="#0b0c0e">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #0b0c0e;
+      --panel: #131416;
+      --raised: #1b1c1f;
+      --border: #222428;
+      --text: #e4e4e6;
+      --muted: #8d8e93;
+      --faint: #5c5d62;
+      --blue: rgb(103 151 255);
+      --action: rgb(36 108 224);
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: dark; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Soft blue light from above, echoing the icon */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20vh -10vw auto;
+      height: 90vh;
+      background:
+        radial-gradient(50% 60% at 50% 0%, rgb(56 110 230 / 0.22), transparent 70%),
+        radial-gradient(30% 40% at 50% 10%, rgb(103 151 255 / 0.12), transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Vector field drifting behind the hero */
+    #field {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 980px;
+      mask-image: linear-gradient(180deg, #000 35%, transparent);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(1080px, 100% - 48px);
+      margin: 0 auto;
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      font-size: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+    .brand img { width: 34px; height: 34px; }
+    nav .links { display: flex; gap: 28px; color: var(--muted); }
+    nav .links a:hover { color: var(--text); }
+
+    /* Hero */
+    header {
+      text-align: center;
+      padding: 96px 0 56px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 11px 4px 9px;
+      border: 1px solid rgb(103 151 255 / 0.25);
+      border-radius: 999px;
+      background: rgb(103 151 255 / 0.06);
+      color: #a9c3ff;
+      font: 500 13px/1.6 var(--mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+    }
+    h1 {
+      margin: 26px 0 0;
+      font-size: clamp(40px, 7vw, 68px);
+      line-height: 1.02;
+      font-weight: 650;
+      letter-spacing: -0.035em;
+      background: linear-gradient(180deg, #fff 30%, #a6a8b0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, #8fb4ff, #4d8bff 55%, #9cc0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .lede {
+      margin: 20px auto 0;
+      max-width: 440px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .cta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-top: 34px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 18px 10px 16px;
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgb(62 130 240), var(--action));
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.2),
+        0 0 0 1px rgb(36 108 224 / 0.6),
+        0 8px 24px -8px rgb(36 108 224 / 0.7);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 550;
+      transition: filter 0.15s, transform 0.15s;
+    }
+    .button:hover { filter: brightness(1.1); }
+    .button:active { transform: translateY(1px); }
+    .button svg { width: 15px; height: 15px; }
+    .meta {
+      color: var(--faint);
+      font: 14px var(--mono);
+    }
+
+    /* Screenshot */
+    .shot {
+      position: relative;
+      margin-top: 24px;
+      perspective: 2000px;
+    }
+    .shot::before {
+      /* glow behind the window */
+      content: "";
+      position: absolute;
+      inset: 8% 10% auto;
+      height: 60%;
+      background: rgb(36 108 224 / 0.25);
+      filter: blur(90px);
+      z-index: -1;
+    }
+    /* Horizon of light the window rises from */
+    .shot::after {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 4%;
+      right: 4%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgb(103 151 255 / 0.9) 50%, transparent);
+      box-shadow: 0 0 18px 1px rgb(103 151 255 / 0.5);
+    }
+    .window {
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--panel), var(--panel)) padding-box,
+        linear-gradient(180deg, rgb(120 160 255 / 0.45), #2a2c31 18%, #222428) border-box;
+      overflow: hidden;
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.05),
+        0 40px 80px -20px rgb(0 0 0 / 0.8);
+      aspect-ratio: 16 / 10;
+      mask-image: linear-gradient(180deg, #000 70%, transparent);
+    }
+    .window img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+
+    /* Placeholder UI — replace with <img src="assets/screenshot.png"> */
+    .mock { display: grid; grid-template-columns: 22% 1fr; height: 100%; }
+    .mock .side {
+      background: #0d0e10;
+      border-right: 1px solid var(--border);
+      padding: 14px 12px;
+    }
+    .dots { display: flex; gap: 7px; margin-bottom: 24px; }
+    .dots i { width: 11px; height: 11px; border-radius: 50%; background: #2c2e33; }
+    .label { height: 6px; width: 34%; border-radius: 3px; background: #26282c; margin: 20px 0 12px; }
+    .row { display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 6px; }
+    .row.on { background: #1d2230; }
+    .row b { width: 6px; height: 6px; border-radius: 50%; background: #34363b; flex: none; }
+    .row.on b, .row.live b { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+    .row span { height: 7px; border-radius: 4px; background: #2a2c31; }
+    .row.on span { background: #3a4560; }
+    .mock .main { display: flex; flex-direction: column; padding: 0; }
+    .mock .bar {
+      height: 46px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px;
+    }
+    .mock .bar span { height: 8px; border-radius: 4px; background: #2e3035; }
+    .mock .thread { flex: 1; padding: 28px 8% 0; display: flex; flex-direction: column; gap: 22px; }
+    .msg { display: flex; gap: 12px; }
+    .avatar { width: 22px; height: 22px; border-radius: 6px; flex: none; background: #2a2c31; }
+    .avatar.claude { background: #c96f4a; opacity: 0.8; }
+    .avatar.codex { background: #e8e8ea; opacity: 0.8; }
+    .lines { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+    .lines span { height: 7px; border-radius: 4px; background: #26282c; }
+    .human .lines span { background: #34363b; }
+    .tool {
+      margin-top: 4px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #0f1012;
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .tool span { background: #1f2a3d !important; }
+    .tool span:nth-child(2) { background: #1d3328 !important; }
+    .composer {
+      margin: 0 8% 22px;
+      height: 54px;
+      border: 1px solid #2c2e33;
+      border-radius: 10px;
+      background: var(--raised);
+    }
+
+    /* Points */
+    .points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin: 24px 0 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--border);
+    }
+    .point {
+      background: var(--bg);
+      padding: 26px 26px 28px;
+    }
+    .point .k {
+      color: var(--blue);
+      font: 13px var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .point h3 {
+      margin: 12px 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .point p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+    .providers { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+    .chip {
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font: 13.5px var(--mono);
+      color: var(--text);
+      background: var(--panel);
+    }
+    .chip.soon { color: var(--faint); border-style: dashed; background: none; }
+
+    /* Closing */
+    .closing {
+      text-align: center;
+      padding: 120px 0 100px;
+    }
+    .closing img { width: 56px; height: 56px; filter: drop-shadow(0 8px 24px rgb(36 108 224 / 0.45)); }
+    .closing h2 {
+      margin: 20px 0 26px;
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 22px 0 32px;
+      border-top: 1px solid var(--border);
+      color: var(--faint);
+      font-size: 15px;
+    }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 760px) {
+      header { padding-top: 56px; }
+      .cta { flex-direction: column; gap: 12px; }
+      .points { grid-template-columns: 1fr; }
+      .mock { grid-template-columns: 1fr; }
+      .mock .side { display: none; }
+      nav .links a:not(:last-child) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><img src="assets/vector-icon.png" alt="">Vector</a>
+      <div class="links">
+        <a href="https://github.com/ahuth/vector-issues/issues">Feedback</a>
+        <a href="https://github.com/ahuth/vector-issues/releases/latest">Download</a>
+      </div>
+    </nav>
+
+    <header>
+      <span class="badge">Public beta</span>
+      <h1>Engineering,<br><em>through agents.</em></h1>
+      <p class="lede">A workspace for humans who build software by directing Claude and Codex.</p>
+      <div class="cta">
+        <a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
+          Download for macOS
+        </a>
+        <span class="meta">Apple silicon · macOS 13+</span>
+      </div>
+    </header>
+
+    <section class="shot" aria-label="Screenshot of Vector">
+      <div class="window">
+        <!-- Placeholder: swap for <img src="assets/screenshot.png" alt="Vector"> -->
+        <div class="mock" aria-hidden="true">
+          <aside class="side">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <div class="label"></div>
+            <div class="row on"><b></b><span style="width:70%"></span></div>
+            <div class="row live"><b></b><span style="width:55%"></span></div>
+            <div class="row"><b></b><span style="width:62%"></span></div>
+            <div class="label"></div>
+            <div class="row"><b></b><span style="width:48%"></span></div>
+            <div class="row"><b></b><span style="width:66%"></span></div>
+            <div class="row"><b></b><span style="width:40%"></span></div>
+            <div class="label"></div>
+            <div class="row"><b></b><span style="width:58%"></span></div>
+          </aside>
+          <div class="main">
+            <div class="bar"><span style="width:140px"></span><span style="width:60px;opacity:.5"></span></div>
+            <div class="thread">
+              <div class="msg human"><div class="avatar"></div><div class="lines"><span style="width:62%"></span><span style="width:38%"></span></div></div>
+              <div class="msg"><div class="avatar claude"></div><div class="lines">
+                <span style="width:88%"></span><span style="width:76%"></span><span style="width:52%"></span>
+                <div class="tool"><span style="width:40%"></span><span style="width:64%"></span><span style="width:30%"></span></div>
+              </div></div>
+              <div class="msg"><div class="avatar codex"></div><div class="lines"><span style="width:80%"></span><span style="width:44%"></span></div></div>
+            </div>
+            <div class="composer"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="points">
+      <div class="point">
+        <div class="k">For humans</div>
+        <h3>You direct. Agents do the work.</h3>
+        <p>Workspaces and conversations built around steering, reviewing, and understanding what agents are doing.</p>
+      </div>
+      <div class="point">
+        <div class="k">Orchestration</div>
+        <h3>Claude and Codex, side by side.</h3>
+        <p>Agents delegate to each other with live activity in view.</p>
+        <div class="providers"><span class="chip">claude</span><span class="chip">codex</span><span class="chip soon">more soon</span></div>
+      </div>
+      <div class="point">
+        <div class="k">Your setup</div>
+        <h3>Bring what you already use.</h3>
+        <p>Vector runs your installed CLIs with your accounts, config, skills, and MCP servers.</p>
+      </div>
+    </section>
+
+    <section class="closing">
+      <img src="assets/vector-icon.png" alt="">
+      <h2>Try the beta.</h2>
+      <a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
+        Download for macOS
+      </a>
+    </section>
+
+    <footer>
+      <span>Vector · Beta</span>
+      <a href="https://github.com/ahuth/vector-issues/issues">Report an issue</a>
+    </footer>
+  </div>
+
+  <script>
+    // A slowly turning vector field: scattered strokes, mostly pointing right,
+    // brightest where the flow is strongest.
+    (() => {
+      const canvas = document.getElementById("field");
+      const ctx = canvas.getContext("2d");
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let points = [], w = 0, h = 0, dpr = 1;
+
+      function layout() {
+        dpr = Math.min(devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        // Jittered placement so it never reads as a grid
+        const step = w < 700 ? 30 : 34;
+        points = [];
+        for (let y = step / 2; y < h; y += step) {
+          for (let x = step / 2; x < w; x += step) {
+            points.push({
+              x: x + (Math.random() - 0.5) * step * 0.9,
+              y: y + (Math.random() - 0.5) * step * 0.9,
+              s: 0.6 + Math.random() * 0.4,
+            });
+          }
+        }
+      }
+
+      function draw(now, dt) {
+        const t = now * 0.00025;
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineCap = "round";
+        const cx = w / 2;
+        for (const p of points) {
+          let nx = p.x / w, ny = p.y / h;
+          const angle =
+            0.55 * Math.sin(nx * 5.1 + t * 1.3 + Math.cos(ny * 3.7 - t)) +
+            0.35 * Math.cos(ny * 6.3 - t * 0.9 + nx * 2.2);
+          const mag = 0.5 + 0.5 * Math.sin(nx * 3.3 - ny * 4.1 + t * 1.7);
+
+          // Drift along the field, wrapping at the edges
+          const speed = (6 + 16 * mag) * p.s * dt;
+          p.x += Math.cos(angle) * speed;
+          p.y += Math.sin(angle) * speed;
+          if (p.x > w + 10) p.x -= w + 20;
+          if (p.y < -10) p.y += h + 20;
+          if (p.y > h + 10) p.y -= h + 20;
+          nx = p.x / w; ny = p.y / h;
+          // Fade toward the edges of the hero and away from the top
+          let focus = Math.max(0, 1 - Math.abs(p.x - cx) / (w * 0.62)) * (1 - ny * 0.55);
+          // Keep the headline clear
+          const ex = (p.x - cx) / Math.min(400, w * 0.48), ey = (p.y - 330) / 190;
+          focus *= Math.min(1, 0.25 + Math.max(0, ex * ex + ey * ey - 0.55));
+          const alpha = (0.05 + 0.38 * mag * mag) * focus * p.s;
+          if (alpha < 0.012) continue;
+          const len = 4 + 9 * mag * p.s;
+          const dx = Math.cos(angle) * len, dy = Math.sin(angle) * len;
+          ctx.strokeStyle = `rgba(${110 + 60 * mag | 0}, ${150 + 40 * mag | 0}, 255, ${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(p.x - dx / 2, p.y - dy / 2);
+          ctx.lineTo(p.x + dx / 2, p.y + dy / 2);
+          ctx.stroke();
+          // Bright head marks direction
+          ctx.fillStyle = `rgba(190, 210, 255, ${alpha * 1.4})`;
+          ctx.fillRect(p.x + dx / 2 - 0.75, p.y + dy / 2 - 0.75, 1.5, 1.5);
+        }
+      }
+
+      let last = 0;
+      function frame(now) {
+        draw(now, Math.min(now - last, 100) / 1000);
+        last = now;
+        requestAnimationFrame(frame);
+      }
+
+      layout();
+      addEventListener("resize", () => { layout(); if (still) draw(0, 0); });
+      if (still) draw(0, 0); else requestAnimationFrame((now) => { last = now; frame(now); });
+    })();
+  </script>
+</body>
+</html>
