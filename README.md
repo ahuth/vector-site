@@ -1,15 +1,19 @@
 # Vector site
 
-A static landing page for the Vector desktop app. Everything lives in `index.html`: markup, styles, and inline SVG. No build step, JavaScript, dependencies, external fonts, or tracking.
+A static landing page for the Vector beta. Everything lives in `index.html`: markup, styles, inline SVG, and a small inline script (starfields and the email form). No build step, dependencies, or web fonts. Type and colors match the Vector app: the system UI font and the palette from the app's `frontend/src/styles.css`.
+
+`sketch.html` is an alternate "hand-drawn engineering diagram" direction, kept for reference. Delete it once you're settled.
 
 ## Preview
 
-Open `index.html` in a browser, or run `python3 -m http.server 8000` from this directory and visit http://localhost:8000.
+Open `index.html` in a browser.
 
 ## Publish
 
-Serve this directory with any static host. Only `index.html` is needed.
+Serve this directory with any static host. `index.html` and the `assets/` folder (app icon, favicon) are all that's needed.
 
-Download buttons point to `https://github.com/ahuth/vector-issues/releases/latest`, matching the app’s configured public release repository. Feedback links point to that repository’s issues. Confirm a public release with a downloadable macOS installer is available before launch; live availability could not be verified during implementation. The page lists macOS 13+ and Apple silicon based on the app configuration and release workflow.
+- Download buttons point to `https://github.com/ahuth/vector-issues/releases/latest`. Feedback links point to that repository's issues.
+- The "Notify me" email form posts to `SIGNUP_ENDPOINT` near the bottom of `index.html`. It's empty by default. Until you set it, submitting shows a "not connected yet" message. Any form backend that accepts a `POST` with an `email` field works (Formspree, Buttondown, Loops, etc.).
+- The app window in the hero is an HTML/CSS illustration, not a screenshot.
 
-The workspace preview is an HTML/CSS illustration, not an app screenshot. Edit copy, colors, and links directly in `index.html`.
+The icons in `assets/` are resized from `src-tauri/icons/icon.png` in the Vector repo.
