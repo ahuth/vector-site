@@ -16,7 +16,6 @@
       --border: #222428;
       --text: #e4e4e6;
       --muted: #8d8e93;
-      --faint: #5c5d62;
       --blue: rgb(103 151 255);
       --action: rgb(36 108 224);
       --mono: ui-monospace, "SF Mono", Menlo, monospace;
@@ -165,7 +164,7 @@
     .button:active { transform: translateY(1px); }
     .button svg { width: 15px; height: 15px; }
     .meta {
-      color: var(--faint);
+      color: var(--muted);
       font: 14px var(--mono);
     }
 
@@ -302,7 +301,7 @@
       color: var(--text);
       background: var(--panel);
     }
-    .chip.soon { color: var(--faint); border-style: dashed; background: none; }
+    .chip.soon { color: var(--muted); border-style: dashed; background: none; }
 
     /* Closing */
     .closing {
@@ -322,7 +321,7 @@
       justify-content: space-between;
       padding: 22px 0 32px;
       border-top: 1px solid var(--border);
-      color: var(--faint);
+      color: var(--muted);
       font-size: 14px;
     }
     footer a:hover { color: var(--text); }
@@ -357,7 +356,7 @@
           <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
           Download for macOS
         </a>
-        <span class="meta">Apple silicon · macOS 13+</span>
+        <span class="meta">macOS 13+ on Apple silicon</span>
       </div>
     </header>
 
@@ -423,7 +422,7 @@
     </section>
 
     <footer>
-      <span>Vector · Beta</span>
+      <span>Vector Beta</span>
       <a href="https://github.com/ahuth/vector-issues/issues">Report an issue</a>
     </footer>
   </div>
