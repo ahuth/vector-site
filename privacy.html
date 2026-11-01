@@ -146,8 +146,8 @@
       <p>Vector runs the Claude and Codex tools you install, signed in with your own accounts. What those agents send to Anthropic and OpenAI is covered by your agreements with them and by their privacy policies, not this one.</p>
 
       <h3>Anonymous usage analytics in the app</h3>
-      <p>Vector sends anonymous events through <a href="https://aptabase.com">Aptabase</a>, such as the app opening or an agent starting and which provider it uses. Events include the app version, macOS version and your approximate location at the country level.</p>
-      <p><strong>Vector never sends your code, prompts, agent output, file names, paths or workspace titles.</strong> Events aren't linked to an account or to an identifier that follows you over time.</p>
+      <p>Vector sends anonymous events through <a href="https://posthog.com">PostHog</a>, such as the app opening, a conversation starting or a message being sent, and which provider it uses. Events include the app version and macOS version. PostHog sees your IP address when events arrive, but doesn't store it or use it to estimate your location.</p>
+      <p><strong>Vector never sends your code, prompts, agent output, file names, paths or workspace titles.</strong> Events aren't linked to an account. They carry a random ID for your install so we can count installs. Turning analytics off deletes it, and turning them back on creates a new one.</p>
       <p>Analytics are on by default. You can turn them off at any time in Vector's settings.</p>
 
       <h3>Update checks</h3>
