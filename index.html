@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vector — An integrated engineering environment</title>
-  <meta name="description" content="Agents write the code. You engineer. Vector is a Mac app for directing Claude and Codex, free while in beta.">
+  <title>Vector — An engineering environment for you and your agents</title>
+  <meta name="description" content="An engineering environment for you and your agents. Bring your provider CLIs, share context, delegate across providers, and see what each agent changed. Free while in beta.">
   <meta name="theme-color" content="#0b0c0e">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -94,7 +94,7 @@
     /* Hero */
     header {
       text-align: center;
-      padding: 96px 0 56px;
+      padding: 40px 0 20px;
     }
     .badge {
       display: inline-flex;
@@ -136,7 +136,7 @@
     }
     .lede {
       margin: 20px auto 0;
-      max-width: 440px;
+      max-width: 640px;
       color: var(--text);
       font-size: 20px;
     }
@@ -177,8 +177,8 @@
        widened until the window itself lines up with the content edges */
     .shot {
       position: relative;
-      width: 107.5%;
-      margin: 0 0 0 -3.75%;
+      width: 103.6%;
+      margin: 0 0 0 -1.8%;
     }
     .shot img { display: block; width: 100%; height: auto; }
     .shot::before {
@@ -195,7 +195,7 @@
     .shot::after {
       content: "";
       position: absolute;
-      top: 3.9%;
+      top: 1.7%;
       left: 8%;
       right: 8%;
       height: 1px;
@@ -206,11 +206,18 @@
     /* Features */
     .features { padding-top: 96px; }
     .features > h2 {
-      margin: 0 0 40px;
+      margin: 0 0 16px;
       text-align: center;
       font-size: clamp(28px, 4vw, 40px);
       font-weight: 650;
       letter-spacing: -0.03em;
+    }
+    .section-lede {
+      max-width: 650px;
+      margin: 0 auto 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 18px;
     }
     .grid {
       display: grid;
@@ -242,118 +249,69 @@
       font-size: 15.5px;
     }
 
-    /* Feature illustrations */
+    /* Static UI excerpts based on Vector's existing frontend components. */
     .art {
-      position: relative;
       height: 210px;
-      padding: 26px 24px 0;
+      padding: 22px 24px 0;
       border-bottom: 1px solid var(--border);
       background: radial-gradient(80% 90% at 50% 0%, rgb(56 110 230 / 0.12), transparent 70%);
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 13px;
+      line-height: 1.5;
       overflow: hidden;
     }
-    .art.center { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-top: 0; }
-    .art.center .tree { align-self: stretch; }
-    .art .prose { color: var(--muted); }
-    .art mark {
-      background: var(--selection);
-      color: var(--text);
-      border-radius: 2px;
-      padding: 1px 0;
-    }
-    .qbar {
-      display: inline-flex;
-      gap: 2px;
-      padding: 3px;
-      margin-bottom: 12px;
-      border: 1px solid #33363c;
-      border-radius: 8px;
-      background: var(--raised);
-      box-shadow: 0 10px 24px -8px rgb(0 0 0 / 0.7);
-      white-space: nowrap;
-    }
-    .qbar span { padding: 3px 9px; border-radius: 5px; color: var(--text); }
-    .qbar span:first-child { background: rgb(103 151 255 / 0.16); color: #cddcff; }
-
-    .doc {
-      border: 1px solid var(--border);
-      border-radius: 10px 10px 0 0;
-      border-bottom: 0;
-      background: var(--bg);
-      height: 100%;
-    }
-    .doc .head {
-      display: flex;
-      justify-content: space-between;
-      padding: 9px 14px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--mono);
-      color: var(--text);
-    }
-    .doc .head span:last-child { color: var(--muted); }
-    .doc .body { padding: 12px 14px; }
-    .doc h4 { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--text); }
-
-    .tree { display: flex; flex-direction: column; gap: 10px; }
-    .agent {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: var(--bg);
-      white-space: nowrap;
-    }
-    .agent.child { margin-left: 28px; position: relative; }
-    .agent.child::before {
-      content: "";
-      position: absolute;
-      left: -18px;
-      top: -12px;
-      width: 14px;
-      height: 32px;
-      border-left: 1px solid #33363c;
-      border-bottom: 1px solid #33363c;
-      border-bottom-left-radius: 6px;
-    }
-    .agent i { width: 16px; height: 16px; border-radius: 5px; flex: none; }
-    .agent i.claude { background: #c96f4a; }
-    .agent i.codex { background: #e8e8ea; }
-    .agent b { font-weight: 550; }
-    .agent small { font-size: 14px; color: var(--muted); }
-    .agent .status { margin-left: auto; display: flex; align-items: center; gap: 7px; color: var(--muted); }
-    .agent .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
-    .agent .status.working { color: #a9c3ff; }
-    .agent .status.working::before { background: var(--blue); box-shadow: 0 0 8px var(--blue); animation: pulse 1.6s ease-in-out infinite; }
-    @keyframes pulse { 50% { opacity: 0.35; } }
-
-    .inbox {
-      width: 78%;
-      height: 100%;
-      padding: 12px 10px;
-      border: 1px solid var(--border);
-      border-bottom: 0;
-      border-radius: 10px 10px 0 0;
-      background: #0d0e10;
-    }
-    .inbox .sec { margin: 0 8px 4px; color: var(--muted); font-weight: 550; }
-    .inbox .item + .sec { margin-top: 12px; }
-    .inbox .item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 5px 8px;
-      border-radius: 6px;
-      color: var(--text);
-      white-space: nowrap;
-    }
-    .inbox .item.on { background: #1d2230; }
-    .inbox .item::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; background: #3a3c42; }
-    .inbox .item.working::before { background: var(--blue); box-shadow: 0 0 8px var(--blue); animation: pulse 1.6s ease-in-out infinite; }
-    .inbox .item.input::before { background: var(--amber); }
-    .inbox .item.todo { color: var(--muted); }
+    .product-art svg { width: 14px; height: 14px; flex: none; }
+    .ui-grow { flex: 1; min-width: 0; }
+    .ui-muted { color: var(--muted); }
+    .ui-blue { color: var(--blue); }
+    .ui-green { color: var(--green); }
+    .ui-red { color: #df8c8c; }
+    .ui-run { margin-bottom: 12px; font-weight: 550; }
+    .ui-run span { margin-left: 8px; color: var(--muted); font-weight: 400; }
+    .ui-window { border: 1px solid var(--border); border-radius: 8px; background: var(--panel); overflow: hidden; }
+    .ui-bar { display: flex; align-items: center; gap: 10px; min-height: 34px; padding: 7px 10px; border-bottom: 1px solid var(--border); }
+    .ui-diff { font: 11px/1.7 var(--mono); padding: 4px 0; }
+    .ui-diff > div { display: grid; grid-template-columns: 30px 30px 1fr; }
+    .ui-diff > div > span { color: var(--muted); text-align: right; padding-right: 6px; }
+    .ui-diff code { font: inherit; white-space: pre; }
+    .ui-diff .added { color: var(--green); background: rgb(116 201 161 / 0.09); }
+    .ui-diff .removed { color: #df8c8c; background: rgb(223 140 140 / 0.09); }
+    .ui-delegated .ui-bar { padding: 0; border: 0; }
+    .ui-agent { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
+    .ui-agent small { display: block; color: var(--muted); font-size: 11px; }
+    .qbar { display: flex; width: fit-content; gap: 2px; padding: 3px; margin-bottom: 10px; border: 1px solid #33363c; border-radius: 8px; background: var(--raised); font-size: 11px; }
+    .qbar span { padding: 3px 6px; }
+    .qbar span:first-child { background: rgb(103 151 255 / 0.16); border-radius: 5px; color: #cddcff; }
+    .thread-art { padding-top: 14px; }
+    .ui-passage { margin: 8px 12px; padding-left: 10px; border-left: 3px solid var(--blue); color: var(--muted); }
+    .ui-thread-reply { padding: 0 12px 10px; }
+    .ui-thread-share { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 10px; }
+    .ui-thread-share > span:first-of-type { flex: 1; }
+    .preview-window { height: 100%; border-radius: 8px 8px 0 0; background: var(--bg); }
+    .ui-groups { display: grid; grid-template-columns: 1fr 1fr; }
+    .ui-tab-group { min-width: 0; }
+    .ui-tab-group + .ui-tab-group { border-left: 1px solid var(--border); }
+    .ui-tabs { display: flex; height: 30px; background: var(--panel); border-bottom: 1px solid var(--border); font-size: 10px; }
+    .ui-tab { display: flex; align-items: center; gap: 8px; padding: 0 7px; border-right: 1px solid var(--border); color: var(--muted); }
+    .ui-tab.selected { background: var(--bg); color: var(--text); border-radius: 7px 7px 0 0; }
+    .ui-tab > span { color: var(--muted); }
+    .ui-mini-chat { padding: 10px; font-size: 11px; }
+    .ui-mini-chat p { margin: 0 0 12px; }
+    .ui-document-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 6px 8px; color: var(--muted); }
+    .ui-groups .ui-document { padding: 2px 10px; font-size: 11px; }
+    .ui-groups .ui-document h4 { font-size: 13px; margin-bottom: 4px; }
+    .ui-groups p { font-size: 11px; margin: 0 0 8px; }
+    .ui-document { padding: 14px 18px; }
+    .ui-document h4 { margin: 0 0 8px; font-size: 16px; }
+    .ui-document p { margin: 0 0 8px; }
+    .ui-document mark { background: var(--selection); color: var(--text); }
+    .ui-context-menu { position: relative; z-index: 1; width: 156px; padding: 4px; margin-bottom: 10px; background: var(--raised); border: 1px solid #33363c; border-radius: 6px; box-shadow: 0 6px 18px rgb(0 0 0 / 0.25); font-size: 12px; }
+    .ui-context-menu span { display: block; padding: 3px 8px; border-radius: 3px; }
+    .ui-context-menu span:first-child:not(.ui-muted) { background: var(--selection); }
+    .ui-composer { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); padding: 10px 12px 8px; }
+    .ui-reference { display: inline-block; border: 1px solid rgb(103 151 255 / 0.2); border-radius: 6px; padding: 0 6px; background: var(--selection); font-size: 0.9em; }
+    .ui-composer-bar { display: flex; align-items: center; gap: 10px; margin-top: 12px; color: var(--muted); font-size: 11px; }
+    .permissions-art { padding-top: 12px; }
+    .permissions-menu { margin: 0 28px -4px auto; }
 
     /* Bring your own setup */
     .setup {
@@ -404,10 +362,18 @@
     footer .links { display: flex; gap: 24px; }
 
     @media (max-width: 760px) {
-      header { padding-top: 56px; }
+      header { padding-top: 32px; }
       .cta { flex-direction: column; gap: 12px; }
       .grid { grid-template-columns: 1fr; }
       .setup { flex-direction: column; align-items: flex-start; }
+      .art { padding-left: 14px; padding-right: 14px; }
+      .ui-bar { gap: 6px; }
+      .ui-run { font-size: 12px; }
+      .thread-art { padding-top: 8px; }
+      .qbar { font-size: 10px; }
+      .qbar span { padding: 3px 4px; }
+      footer { flex-wrap: wrap; gap: 12px 24px; }
+      .ui-thread-share { gap: 5px; font-size: 9px; }
       nav .links a:not(:last-child) { display: none; }
     }
   </style>
@@ -425,8 +391,8 @@
 
     <header>
       <span class="badge">Free while in beta</span>
-      <h1>An integrated<br><em>engineering</em> environment.</h1>
-      <p class="lede">Agents write the code. You engineer.</p>
+      <h1>An engineering environment<br>for <em>you and your agents.</em></h1>
+      <p class="lede">Give your agents more ways to work. And yourself the tools to understand, shape, and build on what they do.</p>
       <div class="cta">
         <a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">
           <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
@@ -440,91 +406,137 @@
       <picture>
         <source type="image/avif"
           srcset="assets/demo-800.avif 800w, assets/demo-1200.avif 1200w, assets/demo-1600.avif 1600w, assets/demo-2400.avif 2400w"
-          sizes="(min-width: 1128px) 1161px, calc((100vw - 48px) * 1.075)">
-        <img src="assets/demo-1600.png" width="1600" height="956"
-          alt="Vector with a Claude agent delegating checkout work to Codex and another Claude, alongside Active, Todo and Archived workspaces">
+          sizes="(min-width: 1128px) 1119px, calc((100vw - 48px) * 1.036)">
+        <img src="assets/demo-1600.png" width="1600" height="1081"
+          alt="Vector with a chat in one tab group and an HTML checkout preview and Agents tab in another, alongside Active, Todo and Archived workspaces">
       </picture>
     </section>
 
     <section class="features">
-      <h2>Built for directing agents.</h2>
+      <h2>More capability. Room to work your way.</h2>
+      <p class="section-lede">Work with one agent or many. Explore approaches, share context, and build your way. Vector gives you and your agents the capabilities to make it happen.</p>
       <div class="grid">
         <article class="card">
-          <div class="art" aria-hidden="true">
-            <div class="inbox">
-              <div class="sec">Active</div>
-              <div class="item on working">Upload retries</div>
-              <div class="item input">Billing webhook</div>
-              <div class="sec">Todo</div>
-              <div class="item todo">Flaky login test</div>
-              <div class="item todo">Dark mode for settings</div>
-              <div class="item todo">Bump Postgres to 18</div>
-            </div>
-          </div>
-          <div class="text">
-            <div class="k">Workspaces</div>
-            <h3>Inbox zero for your work.</h3>
-            <p>Drop ideas into Todo as they come up, then burn them down. Active shows what's running and what needs you.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="art center" aria-hidden="true">
-            <div class="tree">
-              <div class="agent"><i class="claude"></i><b>Claude</b><small>Opus 5.5</small></div>
-              <div class="agent child"><i class="codex"></i><b>Codex</b><small>GPT-6.1-Sol</small><span class="status working">Working</span></div>
-              <div class="agent child"><i class="claude"></i><b>Claude</b><small>Sonnet 5.5</small><span class="status">Finished</span></div>
-            </div>
-          </div>
-          <div class="text">
-            <div class="k">Orchestration</div>
-            <h3>Claude and Codex, together.</h3>
-            <p>Agents delegate across providers. Sub agents run in the background, in view.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="art center" aria-hidden="true">
-            <div class="qbar"><span>Quote in reply</span><span>Quote in new agent</span></div>
-            <div class="prose">The retry loop never backs off, so <mark>a failed upload hammers the API until the request times out.</mark> I'd add jitter and cap it at five tries.</div>
-          </div>
-          <div class="text">
-            <div class="k">Quote</div>
-            <h3>Reply to the exact line.</h3>
-            <p>Select agent output and quote it in your reply, or hand it to a new sub agent.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="art" aria-hidden="true">
-            <div class="doc">
-              <div class="head"><span>plan.md</span><span>Close</span></div>
-              <div class="body prose">
-                <h4>Approach</h4>
-                Move uploads to a background queue. <mark>Keep the old path behind a flag</mark> until the queue has run for a week.
+          <!-- Changes.tsx: inline DiffView. This excerpt shows the actual spacing edit from this homepage refinement. -->
+          <div class="art product-art" aria-hidden="true">
+            <div class="ui-run">Codex <span>Adjusted the hero spacing.</span></div>
+            <div class="ui-window">
+              <div class="ui-bar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="m10 4-4 4 4 4"/></svg><span class="ui-grow">index.html</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="6" y="6" width="8" height="8" rx="1"/><path d="M10 6V2H2v8h4"/></svg><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2h5v5M14 2 7 9M6 3H2v11h11v-4"/></svg><span class="ui-green">+1</span><span class="ui-red">-1</span></div>
+              <div class="ui-diff">
+                <div><span>95</span><span>95</span><code>  header {</code></div>
+                <div><span>96</span><span>96</span><code>    text-align: center;</code></div>
+                <div class="removed"><span>97</span><span></span><code>-   padding: 96px 0 56px;</code></div>
+                <div class="added"><span></span><span>97</span><code>+   padding: 40px 0 20px;</code></div>
+                <div><span>98</span><span>98</span><code>  }</code></div>
               </div>
             </div>
           </div>
           <div class="text">
-            <div class="k">Markdown</div>
-            <h3>Read the plan in place.</h3>
-            <p>Docs agents link to open beside the conversation, and you can quote from them too.</p>
+            <div class="k">Changed files</div>
+            <h3>See exactly what each agent changed.</h3>
+            <p>Open file diffs right in the transcript, scoped to an agent’s run. See what changed during that run, even when the working tree already had edits.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <!-- Subagents.tsx: DelegatedWork header, description, model, and status rows. -->
+          <div class="art product-art" aria-hidden="true">
+            <div class="ui-run">Claude <span>I’ll ask Codex to review the changes.</span></div>
+            <div class="ui-delegated">
+              <div class="ui-bar"><span>Delegated work</span><span class="ui-muted ui-grow">1 working, 1 finished</span><span>⌄</span></div>
+              <div class="ui-agent"><span class="ui-blue">◌</span><div class="ui-grow">Review the changes<small>GPT-6.1-Sol</small></div><span class="ui-blue">Working</span></div>
+              <div class="ui-agent"><span class="ui-green">✓</span><div class="ui-grow">Check test coverage<small>Sonnet 5.5</small></div><span class="ui-green">Finished</span></div>
+            </div>
+          </div>
+          <div class="text">
+            <div class="k">Delegation</div>
+            <h3>Let your agents work together.</h3>
+            <p>Claude, Codex, and Cursor agents can delegate to each other when useful. Follow delegated work, open an agent’s conversation, or view a subagent’s activity and guide it through its parent.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <!-- QuoteToolbar.tsx, ThreadTab.tsx, Threads.tsx: Comment opens a thread tab, shared with the next message. -->
+          <div class="art product-art thread-art" aria-hidden="true">
+            <div class="qbar"><span>Comment</span><span>Quote in reply</span><span>Quote in new agent</span></div>
+            <div class="ui-window">
+              <div class="ui-bar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 2h10v9H6l-3 3Z"/></svg><span class="ui-grow">Keep the old path…</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="m4 4 8 8m0-8-8 8"/></svg></div>
+              <div class="ui-passage">Keep the old path behind a flag.</div>
+              <div class="ui-thread-reply">What would tell us it’s safe to remove?</div>
+            </div>
+            <div class="ui-thread-share"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 2h10v9H6l-3 3Z"/></svg><span>Keep the old path…</span><span class="ui-muted">Shared with next message</span></div>
+          </div>
+          <div class="text">
+            <div class="k">Side conversations</div>
+            <h3>Follow a thought further.</h3>
+            <p>Select a passage and add a comment to explore it in a side conversation. Share the thread with the main agent in your next message, or leave it out.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <!-- TabGroups.tsx and DocumentPanel.tsx: movable resource tabs, with document actions below the tab strip. -->
+          <div class="art product-art" aria-hidden="true">
+            <div class="ui-window preview-window ui-groups">
+              <div class="ui-tab-group">
+                <div class="ui-tabs"><span class="ui-tab selected">Uploads <span>×</span></span></div>
+                <div class="ui-mini-chat"><p>Let’s move uploads to a background queue.</p><p class="ui-muted">I’ve outlined the approach in <span class="ui-blue">plan.md</span>.</p></div>
+              </div>
+              <div class="ui-tab-group">
+                <div class="ui-tabs"><span class="ui-tab selected">plan.md <span>×</span></span><span class="ui-tab">Agents</span></div>
+                <div class="ui-document-actions">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="6" y="6" width="8" height="8" rx="1"/><path d="M10 6V2H2v8h4"/></svg>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M13 6a5 5 0 1 0 0 5M13 2v4H9"/></svg>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2h5v5M14 2 7 9M6 3H2v11h11v-4"/></svg>
+                </div>
+                <div class="ui-document"><h4>Approach</h4><p>Move uploads to a background queue.</p><p>Keep the old path behind a flag.</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="text">
+            <div class="k">Tab groups &amp; previews</div>
+            <h3>Arrange the work around you.</h3>
+            <p>Chats, the Agents view, and previews are tabs. Keep them together or create another group and move tabs between them. Read Markdown, explore HTML, and inspect images wherever they fit.</p>
+          </div>
+        </article>
+        <article class="card">
+          <!-- Turn.tsx message menu; store.ts copyReference; ComposerEditor.tsx reference pills. Workspace and agent menus use the same action. -->
+          <div class="art product-art" aria-hidden="true">
+            <div class="ui-context-menu"><span>Copy reference</span><span>Copy message</span></div>
+            <div class="ui-composer">Review the changes using <span class="ui-reference">@Retry findings</span><div class="ui-composer-bar"><span>+</span><span class="ui-grow"></span><span>GPT-6.1-Sol ⌄</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="m8 2 5 2v4c0 3-5 6-5 6S3 11 3 8V4Z"/></svg><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 13V3m-4 4 4-4 4 4"/></svg></div></div>
+          </div>
+          <div class="text">
+            <div class="k">Shared context</div>
+            <h3>Bring the relevant work with you.</h3>
+            <p>Copy a reference to any workspace, agent, or message and paste it into another conversation. Give the agent the context to pick up where the work left off.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <!-- Composer.tsx: real permission menu labels and composer Stop agent control. Modes offered depend on provider capabilities. -->
+          <div class="art product-art permissions-art" aria-hidden="true">
+            <div class="ui-context-menu permissions-menu"><span class="ui-muted">Permissions</span><span>✓ &nbsp; Ask first</span><span>&nbsp; &nbsp; Auto review</span><span>&nbsp; &nbsp; Full access</span></div>
+            <div class="ui-composer"><span class="ui-muted">Follow up…</span><div class="ui-composer-bar"><span>+</span><span class="ui-grow"></span><span>GPT-6.1-Sol ⌄</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="m8 2 5 2v4c0 3-5 6-5 6S3 11 3 8V4Z"/></svg><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="8" height="8" rx="1" fill="currentColor"/></svg><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 13V3m-4 4 4-4 4 4"/></svg></div></div>
+          </div>
+          <div class="text">
+            <div class="k">Permissions &amp; execution</div>
+            <h3>Stay close to the work.</h3>
+            <p>Control what agents can access and how they execute. Follow progress, respond when they need you, and step in when the direction changes.</p>
           </div>
         </article>
       </div>
 
       <div class="setup">
         <div>
-          <h3>Bring your own setup.</h3>
-          <p>Vector runs the Claude and Codex you already have installed, with your accounts, config, skills, and MCP servers.</p>
+          <h3>Your agents. Your setup. More possibilities.</h3>
+          <p>Bring your provider CLIs. Vector works with the Claude, Codex, and Cursor CLIs you already have installed, using your accounts, configuration, skills, and MCP servers.</p>
         </div>
-        <div class="providers"><span class="chip">claude</span><span class="chip">codex</span><span class="chip soon">more soon</span></div>
+        <div class="providers"><span class="chip">claude</span><span class="chip">codex</span><span class="chip">cursor</span><span class="chip soon">more soon</span></div>
       </div>
     </section>
 
     <section class="closing">
       <img src="assets/vector-icon.png" alt="">
-      <h2>Try the beta.</h2>
+      <h2>Make room for your next way of working.</h2>
       <a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
         Download for macOS
