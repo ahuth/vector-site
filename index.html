@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vector, a workbench for coding agents</title>
-  <meta name="description" content="Vector is a workbench for Claude, Codex, and Cursor. Comment on agent output, open side conversations, and review previews and diffs beside the conversation.">
-  <meta property="og:title" content="Vector, a workbench for coding agents">
-  <meta property="og:description" content="Vector is a workbench for Claude, Codex, and Cursor. Comment on agent output, open side conversations, and review previews and diffs beside the conversation.">
+  <title>Vector: a control room for coding agents (Claude Code, Codex, Cursor)</title>
+  <meta name="description" content="Vector is a control room for Claude Code, Codex, and Cursor. Run agents side by side, comment on their output, and review what they changed.">
+  <meta property="og:title" content="Vector: a control room for coding agents">
+  <meta property="og:description" content="Vector is a control room for Claude Code, Codex, and Cursor. Run agents side by side, comment on their output, and review what they changed.">
   <meta name="theme-color" content="#0b0c0e">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -16,7 +16,7 @@
       --bg: #0b0c0e;
       --border: #222428;
       --text: #e4e4e6;
-      --muted: #8d8e93;
+      --muted: #b0b1b8;
       --blue: rgb(103 151 255);
       --action: rgb(36 108 224);
       --mono: ui-monospace, "SF Mono", Menlo, monospace;
@@ -31,7 +31,7 @@
       min-height: 100vh;
       background: var(--bg);
       color: var(--text);
-      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif;
+      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
@@ -133,9 +133,10 @@
     }
     .lede {
       margin: 20px auto 0;
-      max-width: 640px;
+      max-width: 700px;
       color: var(--text);
-      font-size: 20px;
+      font-size: 21px;
+      line-height: 1.5;
     }
 
     .cta {
@@ -161,13 +162,58 @@
       font-weight: 550;
       transition: filter 0.15s, transform 0.15s;
     }
+    .button.secondary {
+      background: rgb(255 255 255 / 0.04);
+      box-shadow: inset 0 0 0 1px #343842;
+      color: var(--text);
+    }
+    .button.secondary:hover { background: rgb(255 255 255 / 0.08); filter: none; }
     .button:hover { filter: brightness(1.1); }
     .button:active { transform: translateY(1px); }
     .button svg { width: 15px; height: 15px; }
     .meta {
       color: var(--muted);
-      font: 14px var(--mono);
+      font: 15px var(--mono);
     }
+    .pricing {
+      max-width: 560px;
+      margin: 28px auto 0;
+      padding: 18px 24px;
+      border: 1px solid rgb(103 151 255 / 0.25);
+      border-radius: 12px;
+      background: rgb(103 151 255 / 0.06);
+      text-align: center;
+    }
+    .pricing p { margin: 0; font-size: 19px; line-height: 1.45; }
+    .pricing strong { font-weight: 600; }
+    .pricing a {
+      color: #a9c3ff;
+      font-weight: 550;
+      text-decoration: underline;
+    }
+    .pricing a:hover { color: var(--text); }
+
+    /* Supported agents */
+    .harnesses {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 14px;
+      margin: 44px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .harnesses .label { color: var(--muted); font-size: 15px; margin-right: 6px; }
+    .harness {
+      padding: 6px 14px;
+      border: 1px solid #303744;
+      border-radius: 999px;
+      background: #101216;
+      font-size: 16px;
+      font-weight: 550;
+    }
+    .harness.soon { color: var(--muted); border-style: dashed; background: none; font-weight: 400; }
 
     /* Screenshot */
     /* The screenshot includes the macOS window shadow, so the image is
@@ -201,66 +247,7 @@
       box-shadow: 0 0 18px 1px rgb(103 151 255 / 0.5);
     }
 
-    .annotation-toggle {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      width: fit-content;
-      min-height: 44px;
-      margin-left: auto;
-      color: #c3cbd9;
-      cursor: pointer;
-    }
-    .annotation-toggle input { margin: 0; accent-color: var(--action); }
-    .annotation-toggle:hover { color: white; }
-    .annotation-toggle:focus-within { outline: 2px solid var(--blue); outline-offset: 3px; }
-    .notes, .anchor { display: none; }
-    .hero-demo:has(input:checked) :is(.notes, .anchor) { display: block; }
-    .anchor {
-      position: absolute;
-      left: var(--x);
-      top: var(--y);
-      width: var(--width);
-      height: var(--height);
-      border: 1px solid var(--blue);
-      border-radius: 4px;
-      pointer-events: none;
-    }
-    .output-anchor { --x: 29.9%; --y: 45.6%; --width: 18.6%; --height: 2.8%; }
-    .preview-anchor { --x: 69.2%; --y: 70.2%; --width: 26%; --height: 6.2%; }
-    .note {
-      position: absolute;
-      margin: 0;
-      padding: 10px 13px;
-      border: 1px solid #415474;
-      border-radius: 9px;
-      background: #171e29;
-      box-shadow: 0 4px 14px #0005;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    .note strong { display: block; color: #c6d8ff; }
-    .note-output { right: 70.1%; top: 48.4%; width: 26%; border-top-right-radius: 0; border-color: var(--blue); }
-    .note-preview { left: 69.2%; top: 76.4%; width: 26%; border-top-left-radius: 0; }
-    .note-index, .anchor span { display: none; }
-    .note-index, .anchor span {
-      color: #c6d8ff;
-      background: #202e46;
-      border: 1px solid var(--blue);
-      border-radius: 5px;
-      padding: 2px 5px;
-      font: 12px/1.2 var(--mono);
-    }
-    @media (max-width: 840px) {
-      .hero-demo:has(input:checked) .notes { display: grid; gap: 8px; margin: 0 1.8%; }
-      .note { position: static; width: auto; border-radius: 8px; padding-left: 42px; }
-      .note-index { display: inline-block; float: left; margin-left: -31px; }
-      .anchor span { display: block; position: absolute; right: 100%; bottom: 0; }
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .hero-demo:has(input:checked) :is(.notes, .anchor) { animation: reveal-notes 160ms ease-out; }
-      @keyframes reveal-notes { from { opacity: 0; } }
-    }
+    .hero-demo { padding-top: 40px; }
 
     /* Product moments */
     .features {
@@ -281,7 +268,11 @@
       line-height: 1.12;
       letter-spacing: -0.03em;
     }
-    .story p { margin: 0; color: #acadb4; font-size: 17px; }
+    .story p { margin: 0; color: #b8b9c0; font-size: 18px; }
+    .story-text ul { margin: 16px 0 0; padding: 0; list-style: none; color: #b8b9c0; font-size: 16px; }
+    .story-text li { padding-left: 20px; position: relative; }
+    .story-text li + li { margin-top: 6px; }
+    .story-text li::before { content: ""; position: absolute; left: 2px; top: 0.7em; width: 8px; height: 1px; background: var(--blue); }
     .story-capture {
       overflow: hidden;
       background: #101216;
@@ -289,6 +280,76 @@
       border-radius: 12px;
     }
     .story-capture--feedback { max-width: 620px; }
+    .story-capture--mock { padding: 18px; font-size: 15px; }
+
+    /* Small product mocks, built in HTML so the text stays sharp */
+    .mock-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border: 1px solid #262b34;
+      border-radius: 9px;
+      background: #14171c;
+    }
+    .mock-row + .mock-row { margin-top: 8px; }
+    .mock-row .name { flex: 1; min-width: 0; font-weight: 550; }
+    .mock-row .sub { display: block; color: var(--muted); font-size: 14px; font-weight: 400; }
+    .status {
+      font: 13px var(--mono);
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #303744;
+      color: #c6d8ff;
+      white-space: nowrap;
+    }
+    .status.done { color: #9fe0b4; border-color: #2c4a38; }
+    .status.run::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue); vertical-align: 1px; }
+    .mock-head { color: var(--muted); font: 13px var(--mono); letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 10px 2px; }
+    .diff { font: 14px/1.6 var(--mono); border: 1px solid #262b34; border-radius: 9px; overflow: hidden; background: #0f1115; }
+    .diff .file { padding: 9px 14px; background: #14171c; border-bottom: 1px solid #262b34; display: flex; justify-content: space-between; gap: 12px; }
+    .diff .file b { font-weight: 550; color: var(--text); }
+    .diff .add { color: #9fe0b4; }
+    .diff .del { color: #f2a7a7; }
+    .diff .line { padding: 0 14px; white-space: pre-wrap; }
+    .diff .line.add { background: rgb(60 160 100 / 0.12); }
+    .diff .line.del { background: rgb(220 90 90 / 0.12); }
+    .diff .line.ctx { color: var(--muted); }
+    .thread { padding: 4px 2px; }
+    .quote { padding: 8px 12px; border-left: 2px solid var(--blue); background: rgb(103 151 255 / 0.08); border-radius: 0 6px 6px 0; margin: 0 0 12px; }
+    .msg { display: grid; gap: 2px; }
+    .msg + .msg { margin-top: 12px; }
+    .msg .who { color: #c6d8ff; font: 13px var(--mono); }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pane { padding: 14px; border: 1px solid #262b34; border-radius: 10px; background: #14171c; }
+    .thread-pane { border-color: #415474; background: #151b26; }
+    .pane .mock-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-left: 0; }
+    .pane .mock-head .status { text-transform: none; letter-spacing: 0; font-size: 12px; }
+    .agent-text { margin: 0 0 8px; }
+    .agent-text.dim { color: var(--muted); margin: 10px 0 0; }
+    .agent-list { margin: 0; padding-left: 20px; }
+    .agent-list li + li { margin-top: 4px; }
+    .agent-list mark { background: rgb(103 151 255 / 0.28); color: #fff; border-radius: 3px; padding: 0 2px; }
+    .pin { display: inline-block; width: 8px; height: 8px; margin-left: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue); }
+
+    /* .story p sets large body copy; keep text inside mocks at UI size */
+    .story .story-capture p { font-size: 15px; color: var(--text); }
+    .story .story-capture .mock-head { font: 13px var(--mono); color: var(--muted); }
+    .story .story-capture .agent-text.dim { color: var(--muted); }
+    .story .story-capture .mock-head { margin: 0 0 10px; }
+    .story .story-capture .quote { margin: 0 0 12px; }
+    .story .story-capture .agent-text { margin: 0 0 8px; }
+    .story .story-capture .agent-text.dim { margin: 10px 0 0; }
+
+    .harness-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .harness-card { padding: 16px; border: 1px solid #262b34; border-radius: 10px; background: #14171c; }
+    .harness-card b { display: block; font-size: 18px; }
+    .harness-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+
+    .faq { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 56px 0 0; border-top: 1px solid var(--border); }
+    .faq h3 { margin: 0 0 6px; font-size: 18px; letter-spacing: -0.01em; }
+    .faq p { margin: 0; color: #b8b9c0; }
     .story-capture img { display: block; width: 100%; height: auto; }
 
     .providers {
@@ -335,6 +396,7 @@
 
     @media (max-width: 760px) {
       .story { grid-template-columns: 1fr; }
+      .harness-cards, .faq, .split { grid-template-columns: 1fr; }
       header { padding-top: 32px; }
       .cta { flex-direction: column; gap: 12px; }
       footer { flex-wrap: wrap; gap: 12px 24px; }
@@ -349,28 +411,36 @@
       <a class="brand" href="/"><img src="assets/vector-icon.png" alt="">Vector</a>
       <div class="links">
         <a href="https://github.com/ahuth/vector-issues/issues">Feedback</a>
+        <a href="https://buy.polar.sh/polar_cl_ZveaNcNd44yFuZqyPicM4IWfrRyyNiPYZdXpn4WUebr">Buy</a>
         <a href="https://github.com/ahuth/vector-issues/releases/latest">Download</a>
       </div>
     </nav>
 
     <header>
-      <span class="badge">Free while in beta</span>
-      <h1>A workbench for <em>coding agents.</em></h1>
-      <p class="lede">Work with Claude Code, Codex, and other coding agents in one place. Direct their work, explore the results, and stay in control.</p>
+      <span class="badge">14 day free trial, no credit card</span>
+      <h1>A control room for <em>coding agents.</em></h1>
+      <p class="lede">Run Claude Code, Codex, and Cursor side by side. Comment on their output, review what they changed, and keep every task in one place. Bring your own subscriptions.</p>
       <div class="cta">
         <a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">
           <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
           Download for macOS
         </a>
-        <span class="meta">macOS 13+ on Apple silicon</span>
+        <a class="button secondary" href="#how-it-works">See how it works</a>
       </div>
+      <p class="meta" style="margin:16px 0 0">macOS 13+ on Apple silicon</p>
+      <div class="pricing">
+        <p><strong>14 day free trial (no credit card required), then $99 per year for updates,</strong> and you keep the app either way. <a href="https://buy.polar.sh/polar_cl_ZveaNcNd44yFuZqyPicM4IWfrRyyNiPYZdXpn4WUebr">Buy a license</a></p>
+      </div>
+      <ul class="harnesses" aria-label="Supported coding agents">
+        <li class="label">Works with</li>
+        <li class="harness">Claude Code</li>
+        <li class="harness">Codex</li>
+        <li class="harness">Cursor</li>
+        <li class="harness soon">More soon</li>
+      </ul>
     </header>
 
     <section class="hero-demo" aria-label="Inside Vector">
-      <label class="annotation-toggle">
-        <input type="checkbox" aria-controls="hero-notes">
-        Okay, but what makes this different?
-      </label>
       <div class="shot">
       <div class="shot-image">
           <picture>
@@ -380,43 +450,79 @@
             <img src="assets/demo-1600.png" width="1600" height="1081"
               alt="Vector with a chat in one tab group and an HTML checkout preview and Agents tab in another, alongside Active, Todo and Archived workspaces">
           </picture>
-        <div class="anchor output-anchor" aria-hidden="true"><span>1</span></div>
-        <div class="anchor preview-anchor" aria-hidden="true"><span>2</span></div>
-      </div>
-      <div class="notes" id="hero-notes">
-        <p class="note note-output"><span class="note-index" aria-hidden="true">1</span><strong>Comment on this exact line.</strong> Select the sentence and tell the agent what to change. Skip “third bullet, second paragraph.”</p>
-        <p class="note note-preview"><span class="note-index" aria-hidden="true">2</span><strong>The agent says it works.</strong> Try the checkout beside the chat, then ask for a fix while it’s in view.</p>
-      </div>
+        </div>
       </div>
     </section>
 
-    <section class="features" aria-label="Working with agents in Vector">
+    <section class="features" id="how-it-works" aria-label="Working with agents in Vector">
       <article class="story">
         <div class="story-text">
-          <h2>Give feedback on the work itself.</h2>
-          <p>Select a line in an agent’s output and write your comment right beside it. Your feedback stays attached to the decision you want to revisit.</p>
+          <h2>Comment on the agent’s output.</h2>
+          <p>Select any passage and start a thread, like comments in a doc. The agent answers in the thread, and the discussion carries back into the main conversation.</p>
         </div>
-        <div class="story-capture story-capture--feedback">
-          <img src="assets/checkout-feedback.png" width="430" height="235" loading="lazy"
-            alt="An open comment box beneath the selected line ‘Keep the card form as a fallback.’ The draft asks whether the option can be labeled ‘Pay by card.’">
+        <div class="story-capture story-capture--mock" role="img" aria-label="The agent's reply on the left with the line 'Keep the card form as a fallback' highlighted. A thread opens beside it on the right where you ask to label the option 'Pay by card' and the agent agrees. The thread is marked as shared with the next message.">
+          <div class="split" aria-hidden="true">
+            <div class="pane">
+              <p class="mock-head">Conversation</p>
+              <p class="agent-text">Wallet checkout is ready to explore.</p>
+              <ul class="agent-list">
+                <li>Apple Pay and Google Pay appear above the card form.</li>
+                <li>Wallets and cards share one payment intent.</li>
+                <li><mark>Keep the card form as a fallback.</mark><span class="pin"></span></li>
+              </ul>
+              <p class="agent-text dim">Ask me to review the payment settings next.</p>
+            </div>
+            <div class="pane thread-pane">
+              <p class="mock-head">Thread <span class="status">Shared with next message</span></p>
+              <p class="quote">Keep the card form as a fallback.</p>
+              <div class="msg"><span class="who">You</span>Can we label that option “Pay by card”?</div>
+              <div class="msg"><span class="who">Agent</span>Yes. I’ll rename it and keep the form below the wallet buttons.</div>
+            </div>
+          </div>
         </div>
       </article>
 
       <article class="story">
         <div class="story-text">
-          <h2>Follow a question without losing your place.</h2>
-          <p>Open a side conversation to investigate a question, like what happens when a customer cancels a wallet payment. The original checkout task stays open beside it.</p>
+          <h2>Many agents, one place.</h2>
+          <p>Hand work to background agents and keep going. Active, Todo, and Archived workspaces keep every task where you left it.</p>
+          <ul>
+            <li>Watch each agent’s progress in the Agents tab</li>
+            <li>Snooze a workspace until the day you need it</li>
+            <li>Jump to any workspace with ⌘P</li>
+          </ul>
         </div>
-        <div class="story-capture">
-          <img src="assets/checkout-side-conversation.png" width="1160" height="365" loading="lazy"
-            alt="Vector with sample data showing the original checkout task on the left and a separate conversation about wallet cancellation on the right.">
+        <div class="story-capture story-capture--mock" role="img" aria-label="An Agents list showing one agent running and two finished.">
+          <div aria-hidden="true">
+            <p class="mock-head">Agents</p>
+            <div class="mock-row"><span class="name">Wallet payments<span class="sub">Claude Code</span></span><span class="status run">Running</span></div>
+            <div class="mock-row"><span class="name">Cancel flow edge cases<span class="sub">Codex</span></span><span class="status done">Done</span></div>
+            <div class="mock-row"><span class="name">Update checkout tests<span class="sub">Cursor</span></span><span class="status done">Done</span></div>
+          </div>
         </div>
       </article>
 
       <article class="story">
         <div class="story-text">
-          <h2>Check the result side by side.</h2>
-          <p>Keep the agent’s explanation beside a preview or diff. Here, you can check that the card form is still there below the new wallet buttons.</p>
+          <h2>Review what changed.</h2>
+          <p>See changed files and per-file diffs beside the conversation, including work agents do in their own git worktrees and through shell commands.</p>
+        </div>
+        <div class="story-capture story-capture--mock" role="img" aria-label="A diff for checkout.tsx adding a Pay by card label.">
+          <div class="diff" aria-hidden="true">
+            <div class="file"><b>src/checkout.tsx</b><span><span class="add">+3</span> <span class="del">−1</span></span></div>
+            <div class="line ctx">  &lt;WalletButtons /&gt;</div>
+            <div class="line del">- &lt;CardForm /&gt;</div>
+            <div class="line add">+ &lt;Divider label="Pay by card" /&gt;</div>
+            <div class="line add">+ &lt;CardForm /&gt;</div>
+            <div class="line ctx">  &lt;Terms /&gt;</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="story-text">
+          <h2>Check the result beside the chat.</h2>
+          <p>Open a preview, document, or web page next to the conversation, in side-by-side tab groups. Here, you can check that the card form is still there below the new wallet buttons.</p>
         </div>
         <div class="story-capture">
           <img src="assets/checkout-result.png" width="1110" height="395" loading="lazy"
@@ -426,29 +532,37 @@
 
       <article class="story">
         <div class="story-text">
-          <h2>Use the agent CLIs you already have.</h2>
-          <p>Vector works with the Claude, Codex, and Cursor CLIs you already have installed, using your accounts, configuration, skills, and MCP servers.</p>
+          <h2>Bring your own subscription.</h2>
+          <p>Vector uses the Claude, Codex, and Cursor CLIs you already have installed, with your accounts, configuration, skills, and MCP servers. It doesn’t resell tokens.</p>
         </div>
-        <ul class="providers" aria-label="Compatible agent CLIs">
-          <li class="chip">Claude</li>
-          <li class="chip">Codex</li>
-          <li class="chip">Cursor</li>
-          <li class="chip soon">More soon</li>
-        </ul>
+        <div class="story-capture story-capture--mock">
+          <div class="harness-cards">
+            <div class="harness-card"><b>Claude Code</b><span>Your CLI and login</span></div>
+            <div class="harness-card"><b>Codex</b><span>Your CLI and login</span></div>
+            <div class="harness-card"><b>Cursor</b><span>Your CLI and login</span></div>
+          </div>
+        </div>
       </article>
+    </section>
+
+    <section class="faq" aria-label="Good to know">
+      <div><h3>14 days free, then $99 a year</h3><p>Try Vector free for 14 days, with no credit card. A license is $99 per year and includes a year of updates. If you don’t renew, Vector keeps working and you stay on the version you have. You still pay your agent providers as you do today. <a href="https://buy.polar.sh/polar_cl_ZveaNcNd44yFuZqyPicM4IWfrRyyNiPYZdXpn4WUebr" style="text-decoration:underline">Buy a license</a></p></div>
+      <div><h3>macOS, Apple silicon</h3><p>Requires macOS 13 or later. Other platforms aren’t available yet.</p></div>
+      <div><h3>Works with what you have</h3><p>If the agent CLI runs in your terminal, Vector can use it.</p></div>
     </section>
 
     <section class="closing">
       <img src="assets/vector-icon.png" alt="">
-      <h2>Try Vector with your coding agents.</h2>
+      <h2>Your agents deserve more than a terminal.</h2>
       <a class="button" href="https://github.com/ahuth/vector-issues/releases/latest">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.2 8.4c0-1.6 1.3-2.3 1.4-2.4-.8-1.1-1.9-1.3-2.3-1.3-1-.1-1.9.6-2.4.6-.5 0-1.3-.6-2.1-.5-1.1 0-2.1.6-2.6 1.6-1.1 1.9-.3 4.8.8 6.3.5.8 1.1 1.6 1.9 1.6.8 0 1.1-.5 2-.5s1.2.5 2 .5c.8 0 1.4-.8 1.9-1.5.6-.9.8-1.7.8-1.8 0 0-1.4-.6-1.4-2.6ZM9.7 3.7c.4-.5.7-1.2.6-1.9-.6 0-1.4.4-1.8.9-.4.5-.7 1.2-.6 1.8.7.1 1.4-.3 1.8-.8Z"/></svg>
         Download for macOS
       </a>
+      <p class="meta" style="margin:16px 0 0">Free for 14 days, no credit card. Then $99 per year for updates.</p>
     </section>
 
     <footer>
-      <span>Vector Beta</span>
+      <span>Vector</span>
       <span class="links">
         <a href="privacy.html">Privacy and terms</a>
         <a href="https://github.com/ahuth/vector-issues/issues">Report an issue</a>
