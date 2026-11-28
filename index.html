@@ -244,7 +244,6 @@
     /* The screenshot is the bare window with transparent rounded corners,
        so the shadow is drawn here and follows them */
     .hero-demo { padding-top: 56px; }
-    .hero-demo .wall { padding: clamp(18px, 5vw, 56px) clamp(18px, 5vw, 56px) 0; border-radius: 32px; }
     .hero-demo img {
       display: block;
       width: 100%;
@@ -374,11 +373,11 @@
     </header>
 
     <section class="hero-demo" aria-label="Inside Vector">
-      <div class="wall">
+      <div>
         <picture>
           <source type="image/avif"
             srcset="assets/demo-800.avif 800w, assets/demo-1200.avif 1200w, assets/demo-1600.avif 1600w, assets/demo-2400.avif 2400w"
-            sizes="(min-width: 1128px) 970px, calc(100vw - 48px)">
+            sizes="(min-width: 1128px) 1080px, calc(100vw - 48px)">
           <img src="assets/demo-1600.png" width="1600" height="1136"
             alt="Vector with a chat in one tab group and an HTML checkout preview and Agents tab in another, alongside Active, Todo and Archived workspaces">
         </picture>
